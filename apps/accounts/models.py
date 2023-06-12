@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from apps.common.models import TimeStampModel
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
+from django.utils.crypto import get_random_string
 
 phone_reguler_expression = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",
@@ -37,4 +38,10 @@ class User(AbstractUser, TimeStampModel):
         related_name="user_permissions_set",
     )
     
+class CustomToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=40, unique=True)
     
+    def generate_token(self):
+        print("==================== generate_token ===============")
+        self.token = get_random_string(40) 
