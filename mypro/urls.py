@@ -28,6 +28,7 @@ api_v1_urls = [
     re_path("crud5_using_viewsets/", include(("apps.crud5_using_viewsets.api_v1.urls", "crud5_using_viewsets"), namespace="crud5_using_viewsets")),
     re_path("crud6_using_model_viewsets/", include(("apps.crud6_using_model_viewsets.api_v1.urls", "crud6_using_model_viewsets"), namespace="crud6_using_model_viewsets")),
     re_path("crud7_using_serializers/", include(("apps.crud7_using_serializers.api_v1.urls", "crud7_using_serializers"), namespace="crud7_using_serializers")),
+    re_path("accounts/", include(("apps.accounts.api_v1.urls", "accounts"), namespace="accounts")),
 
 ]
 urlpatterns = [
