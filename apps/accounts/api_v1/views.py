@@ -8,7 +8,6 @@ class UserModelViewSet(ModelViewSet):
     serializer_class = UserSerializer
     
     def create(self, request, *args, **kwargs):
-        # import pdb;pdb.set_trace()
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             user = self.create_user(serializer)
