@@ -2,8 +2,13 @@ from apps.app2.models import Person
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import PersonSerializer
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
     
 class PersonAPIViewSet(APIView):      
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, pk=None, format=None):
         _id = pk
         if _id:

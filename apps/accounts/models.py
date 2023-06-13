@@ -1,12 +1,10 @@
-
-
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from apps.common.models import TimeStampModel
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.crypto import get_random_string
+from django.contrib.auth.backends import BaseBackend
 
 phone_reguler_expression = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",
@@ -45,3 +43,18 @@ class CustomToken(models.Model):
     def generate_token(self):
         print("==================== generate_token ===============")
         self.token = get_random_string(40) 
+        
+class CustomTokenBackend(BaseBackend):
+    def authenticate(self, request, token=None):
+        try:
+            authorization_header = request.headers.get('Authorization')
+            if authorization_header:
+                token_value = authorization_header.split(' ')[1] if authorization_header else None  
+                custom_token = CustomToken.objects.get(token=token_value)   
+                print('--------- custom_token.user ---------', custom_token.user)         
+                return (custom_token.user, None)
+        except CustomToken.DoesNotExist:
+            return None
+        
+    def authenticate_header(self, request):
+        return _('Custom Token')

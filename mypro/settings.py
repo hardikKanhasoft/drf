@@ -156,3 +156,7 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 # celery -A mypro  worker --pool=solo -l info
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.CustomTokenBackend',
+    # Other authentication backends
+]

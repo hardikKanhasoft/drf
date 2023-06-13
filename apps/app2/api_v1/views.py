@@ -4,8 +4,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PersonSerializer
 from apps.app2.models import Person
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
+
 
 @api_view(["GET", "POST", "PATCH", "PUT", "DELETE"])
+@authentication_classes([CustomTokenBackend])
+@permission_classes([IsAuthenticated])
 def person_api(request):
     _id = request.query_params.get('id')  # Retrieve the 'id' from query parameter
     print("_id", _id)

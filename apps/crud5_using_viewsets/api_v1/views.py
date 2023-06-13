@@ -4,8 +4,14 @@ from rest_framework import status
 from apps.app2.api_v1.serializers import PersonSerializer
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-    
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
+
+
 class PersonViewset(ViewSet):
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
+    
     def list(self, request):
         person = Person.objects.all()
         serializer = PersonSerializer(person, many=True)

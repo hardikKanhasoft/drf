@@ -5,14 +5,20 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
 
 class ListCreatePersonAPIView(ListCreateAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
     
 class RetrieveUpdateDestroyPersonAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
     
     
     

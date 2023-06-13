@@ -5,9 +5,14 @@ from .serializers import PersonSerializer
 from apps.app2.models import Person
 from rest_framework.views import APIView
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
 
 class PersonAPIView(APIView):
+    
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, *args, **kwargs):
         _id = request.query_params.get('id')  # Retrieve the 'id' from query parameter
         if _id:
