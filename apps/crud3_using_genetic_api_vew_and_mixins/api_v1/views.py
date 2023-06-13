@@ -10,13 +10,17 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     DestroyModelMixin,
 )
-
+from rest_framework.permissions import IsAuthenticated
+from apps.accounts.models import CustomTokenBackend
 
 # List and Create - PK Not Required
 class ListCreatePersonAPI(GenericAPIView, ListModelMixin, CreateModelMixin):
+    
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, *args, **kwargs):       
         return self.list(request, *args, **kwargs)
 
@@ -29,6 +33,8 @@ class ReadUpdateDeletePersonAPI(
 ):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    authentication_classes = [CustomTokenBackend]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
